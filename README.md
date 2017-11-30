@@ -1,2 +1,1 @@
-# plugin-signer-account
-CI-only
+ 1.1.2 (20171130-153030)
