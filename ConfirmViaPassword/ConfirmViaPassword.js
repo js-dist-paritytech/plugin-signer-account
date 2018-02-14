@@ -23,9 +23,9 @@ var _Button = require('semantic-ui-react/dist/commonjs/elements/Button');var _Bu
 var _Form = require('semantic-ui-react/dist/commonjs/collections/Form');var _Form2 = _interopRequireDefault(_Form);
 var _Input = require('semantic-ui-react/dist/commonjs/elements/Input');var _Input2 = _interopRequireDefault(_Input);
 var _reactIntl = require('react-intl');
-var _pick = require('lodash/pick');var _pick2 = _interopRequireDefault(_pick);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}require('./ConfirmViaPassword.css');var styles = { 'confirmForm': 'ConfirmViaPassword__confirmForm___2wNet', 'confirmButton': 'ConfirmViaPassword__confirmButton___36SNh', 'signerIcon': 'ConfirmViaPassword__signerIcon___hmMO8', 'passwordHint': 'ConfirmViaPassword__passwordHint___4jRHV' };var
+var _pick = require('lodash/pick');var _pick2 = _interopRequireDefault(_pick);
 
-
+var _ConfirmViaPassword = require('./ConfirmViaPassword.css');var _ConfirmViaPassword2 = _interopRequireDefault(_ConfirmViaPassword);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}var
 
 
 
@@ -43,9 +43,10 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
 
 
 
-
     state = {
-      password: '' }, _this.
+      isSending: false,
+      password: '',
+      passwordError: null }, _this.
 
 
     allAccountsInfoStore = _mobx2.default.parity.allAccountsInfo().get(_this.context.api), _this.
@@ -57,28 +58,31 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
 
     handleConfirm = function () {var
       api = _this.context.api;var _this$props =
-      _this.props,dataSigned = _this$props.dataSigned,request = _this$props.request,transaction = _this$props.transaction;var
+      _this.props,request = _this$props.request,transaction = _this$props.transaction;var
       password = _this.state.password;
 
-      if (dataSigned) {
-        api.signer.confirmRequestRaw(request.id, dataSigned);
-      } else {
-        // Note that transaction can be null, in this case confirmRequest will
-        // sign the message that was in the request
-        api.signer.confirmRequest(request.id, (0, _pick2.default)(transaction, ['condition', 'gas', 'gasPrice,']), password);
-      }
+      _this.setState({ isSending: true });
+
+      // Note that transaction can be null, in this case confirmRequest will
+      // sign the message that was initially in the request
+      return api.signer.
+      confirmRequest(request.id, (0, _pick2.default)(transaction, ['condition', 'gas', 'gasPrice,']), password).
+      then(function () {return _this.setState({ isSending: false });}).
+      catch(function (error) {return _this.setState({ isSending: false, passwordError: error.text });});
     }, _temp), _possibleConstructorReturn(_this, _ret);}_createClass(ConfirmViaPassword, [{ key: 'render', value: function render()
 
     {var _props =
-      this.props,address = _props.address,isDisabled = _props.isDisabled,isSending = _props.request.isSending;
+      this.props,address = _props.address,isDisabled = _props.isDisabled;var
+      isSending = this.state.isSending;
 
       return (
-        _react2.default.createElement('div', { className: styles.confirmForm },
+        _react2.default.createElement('div', { className: _ConfirmViaPassword2.default.confirmForm },
           _react2.default.createElement(_Form2.default, null,
             this.renderPassword(),
             this.renderHint(),
+            this.renderError(),
             _react2.default.createElement(_Button2.default, {
-              className: styles.confirmButton,
+              className: _ConfirmViaPassword2.default.confirmButton,
               content:
               isSending ?
               _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'signer.txPendingConfirm.buttons.confirmBusy', defaultMessage: 'Confirming...' }) :
@@ -91,20 +95,27 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
 
               disabled: isDisabled || isSending,
               fluid: true,
-              icon: _react2.default.createElement(_IdentityIcon2.default, { address: address, button: true, className: styles.signerIcon }),
+              icon: _react2.default.createElement(_IdentityIcon2.default, { address: address, button: true, className: _ConfirmViaPassword2.default.signerIcon }),
               onClick: this.handleConfirm }))));
 
 
 
 
+    } }, { key: 'renderError', value: function renderError()
+
+    {var
+      passwordError = this.state.passwordError;
+
+      return _react2.default.createElement('div', { className: _ConfirmViaPassword2.default.error }, passwordError);
     } }, { key: 'renderPassword', value: function renderPassword()
 
     {var _props2 =
-      this.props,formatMessage = _props2.intl.formatMessage,isFocused = _props2.isFocused;var
-      password = this.state.password;
+      this.props,formatMessage = _props2.intl.formatMessage,isFocused = _props2.isFocused;var _state =
+      this.state,password = _state.password,passwordError = _state.passwordError;
 
       return (
         _react2.default.createElement(_Input2.default, {
+          error: !!passwordError,
           focus: isFocused,
           label:
           _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'signer.txPendingConfirm.password.unlock.label', defaultMessage: 'Account Password' }),
@@ -130,7 +141,7 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
       }
 
       return (
-        _react2.default.createElement('div', { className: styles.passwordHint },
+        _react2.default.createElement('div', { className: _ConfirmViaPassword2.default.passwordHint },
           _react2.default.createElement(_reactIntl.FormattedMessage, {
             id: 'signer.txPendingConfirm.passwordHint',
             defaultMessage: '(hint) {passwordHint}',
@@ -140,7 +151,7 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
 
 
 
-    } }]);return ConfirmViaPassword;}(_react.Component), _class2.contextTypes = { api: _propTypes2.default.object.isRequired }, _class2.propTypes = { address: _propTypes2.default.string.isRequired, dataSigned: _propTypes2.default.string, intl: _reactIntl.intlShape, isDisabled: _propTypes2.default.bool, isFocused: _propTypes2.default.bool, request: _propTypes2.default.object.isRequired, transaction: _propTypes2.default.object }, _temp2)) || _class) || _class;exports.default =
+    } }]);return ConfirmViaPassword;}(_react.Component), _class2.contextTypes = { api: _propTypes2.default.object.isRequired }, _class2.propTypes = { address: _propTypes2.default.string.isRequired, intl: _reactIntl.intlShape, isDisabled: _propTypes2.default.bool, isFocused: _propTypes2.default.bool, request: _propTypes2.default.object.isRequired, transaction: _propTypes2.default.object }, _temp2)) || _class) || _class;exports.default =
 
 
 ConfirmViaPassword;

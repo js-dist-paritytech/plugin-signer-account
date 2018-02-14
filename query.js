@@ -26,4 +26,4 @@ isHandler; // Copyright 2015-2017 Parity Technologies (UK) Ltd.
 // GNU General Public License for more details.
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
-function isHandler(payload, account) {return !!(payload && account && account.uuid);}
+function isHandler(payload, _, account) {return !!(payload && account && account.uuid);}
