@@ -66,7 +66,7 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
       // Note that transaction can be null, in this case confirmRequest will
       // sign the message that was initially in the request
       return api.signer.
-      confirmRequest(request.id, (0, _pick2.default)(transaction, ['condition', 'gas', 'gasPrice,']), password).
+      confirmRequest(request.id, (0, _pick2.default)(transaction, ['condition', 'gas', 'gasPrice']), password).
       then(function () {return _this.setState({ isSending: false });}).
       catch(function (error) {return _this.setState({ isSending: false, passwordError: error.text });});
     }, _temp), _possibleConstructorReturn(_this, _ret);}_createClass(ConfirmViaPassword, [{ key: 'render', value: function render()
