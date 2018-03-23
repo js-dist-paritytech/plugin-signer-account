@@ -114,19 +114,22 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
       this.state,password = _state.password,passwordError = _state.passwordError;
 
       return (
-        _react2.default.createElement(_Input2.default, {
-          error: !!passwordError,
-          focus: isFocused,
-          label:
-          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'signer.txPendingConfirm.password.unlock.label', defaultMessage: 'Account Password' }),
+        _react2.default.createElement('div', null,
+          _react2.default.createElement('label', null,
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'signer.txPendingConfirm.password.unlock.label', defaultMessage: 'Account Password:' })),
 
-          onChange: this.handleChange,
-          placeholder: formatMessage({
-            defaultMessage: 'unlock the account',
-            id: 'signer.txPendingConfirm.password.unlock.hint' }),
+          _react2.default.createElement(_Input2.default, {
+            className: _ConfirmViaPassword2.default.passwordInput,
+            error: !!passwordError,
+            focus: isFocused,
+            onChange: this.handleChange,
+            placeholder: formatMessage({
+              defaultMessage: 'unlock the account',
+              id: 'signer.txPendingConfirm.password.unlock.hint' }),
 
-          type: 'password',
-          value: password }));
+            type: 'password',
+            value: password })));
+
 
 
     } }, { key: 'renderHint', value: function renderHint()
