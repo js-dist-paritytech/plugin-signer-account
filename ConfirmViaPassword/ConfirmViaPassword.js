@@ -58,17 +58,27 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
 
     handleConfirm = function () {var
       api = _this.context.api;var _this$props =
-      _this.props,request = _this$props.request,transaction = _this$props.transaction;var
-      password = _this.state.password;
+      _this.props,request = _this$props.request,transaction = _this$props.transaction;var _this$state =
+      _this.state,isSending = _this$state.isSending,password = _this$state.password;
 
-      _this.setState({ isSending: true });
+      if (isSending) {
+        return;
+      }
 
-      // Note that transaction can be null, in this case confirmRequest will
-      // sign the message that was initially in the request
-      return api.signer.
-      confirmRequest(request.id, (0, _pick2.default)(transaction, ['condition', 'gas', 'gasPrice']), password).
-      then(function () {return _this.setState({ isSending: false });}).
-      catch(function (error) {return _this.setState({ isSending: false, passwordError: error.text });});
+      _this.setState({ isSending: true }, function () {
+        // Note that transaction can be null, in this case confirmRequest will
+        // sign the message that was initially in the request
+        return api.signer.
+        confirmRequest(
+        request.id,
+        (0, _pick2.default)(transaction, ['condition', 'gas', 'gasPrice']),
+        password).
+
+        then(function () {return _this.setState({ isSending: false });}).
+        catch(function (error) {return (
+            _this.setState({ isSending: false, passwordError: error.text }));});
+
+      });
     }, _temp), _possibleConstructorReturn(_this, _ret);}_createClass(ConfirmViaPassword, [{ key: 'render', value: function render()
 
     {var _props =
@@ -84,18 +94,27 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
             _react2.default.createElement(_Button2.default, {
               className: _ConfirmViaPassword2.default.confirmButton,
               content:
+              /* eslint-disable indent,react/jsx-indent-props */
               isSending ?
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'signer.txPendingConfirm.buttons.confirmBusy', defaultMessage: 'Confirming...' }) :
+              _react2.default.createElement(_reactIntl.FormattedMessage, {
+                id: 'signer.txPendingConfirm.buttons.confirmBusy',
+                defaultMessage: 'Confirming...' }) :
 
               _react2.default.createElement(_reactIntl.FormattedMessage, {
                 id: 'signer.txPendingConfirm.buttons.confirmRequest',
-                defaultMessage: 'Confirm Request' }),
+                defaultMessage: 'Confirm Request' })
 
-
+              /* eslint-disable indent,react/jsx-indent-props */,
 
               disabled: isDisabled || isSending,
               fluid: true,
-              icon: _react2.default.createElement(_IdentityIcon2.default, { address: address, button: true, className: _ConfirmViaPassword2.default.signerIcon }),
+              icon:
+              _react2.default.createElement(_IdentityIcon2.default, {
+                address: address,
+                button: true,
+                className: _ConfirmViaPassword2.default.signerIcon }),
+
+
               onClick: this.handleConfirm }))));
 
 
@@ -106,7 +125,11 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
     {var
       passwordError = this.state.passwordError;
 
-      return _react2.default.createElement('div', { className: _ConfirmViaPassword2.default.error }, passwordError);
+      return (
+        _react2.default.createElement('div', { className: _ConfirmViaPassword2.default.error },
+          passwordError));
+
+
     } }, { key: 'renderPassword', value: function renderPassword()
 
     {var _props2 =
@@ -116,7 +139,10 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
       return (
         _react2.default.createElement('div', null,
           _react2.default.createElement('label', null,
-            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'signer.txPendingConfirm.password.unlock.label', defaultMessage: 'Account Password:' })),
+            _react2.default.createElement(_reactIntl.FormattedMessage, {
+              id: 'signer.txPendingConfirm.password.unlock.label',
+              defaultMessage: 'Account Password:' })),
+
 
           _react2.default.createElement(_Input2.default, {
             className: _ConfirmViaPassword2.default.passwordInput,
@@ -137,7 +163,8 @@ ConfirmViaPassword = (0, _mobxReact.observer)(_class = (0, _reactIntl.injectIntl
     {var
       address = this.props.address;
       var account = this.allAccountsInfoStore.allAccountsInfo[address];
-      var passwordHint = account && account.meta && account.meta.passwordHint || null;
+      var passwordHint =
+      account && account.meta && account.meta.passwordHint || null;
 
       if (!passwordHint) {
         return null;
