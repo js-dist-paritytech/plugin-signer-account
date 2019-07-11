@@ -1,6 +1,6 @@
 {
   "name": "@parity/plugin-signer-account",
-  "version": "1.2.51",
+  "version": "1.2.52",
   "description": "Signer plugin handler for sending transactions",
   "main": "index.js",
   "scripts": {
@@ -52,7 +52,7 @@
   "dependencies": {
     "@parity/mobx": "1.1.x",
     "@parity/ui": "3.1.x",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "prop-types": "^15.7.2",
     "react-intl": "^2.9.0",
     "semantic-ui-react": "^0.87.2"
