@@ -1,6 +1,6 @@
 {
   "name": "@parity/plugin-signer-account",
-  "version": "1.2.54",
+  "version": "1.2.55",
   "description": "Signer plugin handler for sending transactions",
   "main": "index.js",
   "scripts": {
@@ -40,10 +40,10 @@
     "eslint-config-semistandard": "^12.0.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-config-standard-react": "^8.0.0",
-    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-standard": "^4.0.0",
     "sinon": "^7.3.2",
     "stylelint": "^10.1.0",
@@ -52,7 +52,7 @@
   "dependencies": {
     "@parity/mobx": "1.1.x",
     "@parity/ui": "3.1.x",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react-intl": "^2.9.0",
     "semantic-ui-react": "^0.87.3"
